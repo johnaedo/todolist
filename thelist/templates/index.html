@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do list</title>
+</head>
+<body>
+    <h1>Welcome to the To Do list app</h1>
+    <form method = "POST" action = "/addTask">
+        {% csrf_token %}
+        {{form.as_p}}
+        <label>
+            <input name="task" type = "text"  value="" placeholder="Please enter a task">
+        </label>
+        <input type="submit" value="Submit">
+    </form>
+    <table>
+        <thead>
+            <th>Task</th>
+            <th>Date Completed</th>
+            <th>Completed?</th>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{task.descr}}</td>
+                    <td>{{task.dateCompleted}}</td>
+                    <td>{% if task.completed == True %}
+                            <input type="checkbox" checked>
+                        {% else %}
+                            <input type="checkbox">
+                        {% endif %}
+                    </td>
+                
+                        
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

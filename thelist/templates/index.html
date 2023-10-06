@@ -14,29 +14,31 @@
         </label>
         <input type="submit" value="Submit">
     </form>
-    <table>
-        <thead>
-            <th>Task</th>
-            <th>Date Completed</th>
-            <th>Completed?</th>
-        </thead>
-        <tbody>
-            {% for task in tasks %}
-                <tr>
-                    <td>{{task.descr}}</td>
-                    <td>{{task.dateCompleted}}</td>
-                    <td>{% if task.completed == True %}
-                            <input type="checkbox" checked>
-                        {% else %}
-                            <input type="checkbox">
-                        {% endif %}
-                    </td>
-                
-                        
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
+    <form method="POST" action="/updateList">
+        {% csrf_token %}
+        <table>
+            <thead>
+                <th>Task</th>
+                <th>Date Completed</th>
+                <th>Completed?</th>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td><input type="hidden" id="task-id" value={{task.id}}></td>
+                        <td>{{task.descr}}</td>
+                        <td>{{task.dateCompleted}}</td>
+                        <td>{% if task.completed %}
+                                <input name="{{ task.id }}-completed" type="checkbox" checked>
+                            {% else %}
+                                <input name="{{ task.id }}-completed" type="checkbox">
+                            {% endif %}
+                        </td>                 
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <input type="Submit" value="Update database">
+    </form>
 </body>
 </html>

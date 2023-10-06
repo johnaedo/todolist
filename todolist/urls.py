@@ -21,5 +21,6 @@ import thelist.views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', thelist.views.index),
-    path('addTask', thelist.views.addTask)
+    path('addTask', thelist.views.addTask),
+    path('updateList', thelist.views.updateList)
 ]

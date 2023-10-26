@@ -1,6 +1,7 @@
 from django.shortcuts import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from thelist.models import Tasks
+from thelist.forms import TaskForm
 from datetime import date
 import re
 
@@ -9,10 +10,21 @@ def index(request):
     return render(request, "index.html", {"tasks" : tasks})
 
 def addTask(request):
-    newTask = Tasks(descr=request.POST['task'],
-                    completed=False)
-    newTask.save()
-    return render(request, "index.html")
+    # newTask = Tasks(descr=request.POST['task'],
+    #                completed=False)
+    # newTask.save()
+    # return render(request, "index.html")
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            form.save()  # This will save the task to the database
+            return redirect('/')  # You can replace 'task_list' with the URL name of your task list view
+    else:
+        form = TaskForm()
+
+    return render(request, 'add_task.html', {'form': form})
+
+
 
 def updateList(request):
     updatedTasks = {}

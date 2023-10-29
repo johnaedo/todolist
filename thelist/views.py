@@ -1,13 +1,21 @@
 from django.shortcuts import HttpResponse
 from django.shortcuts import render, redirect
 from thelist.models import Tasks
-from thelist.forms import TaskForm
+from thelist.forms import TaskForm, ListForm
 from datetime import date
 import re
 
 def index(request):
-    tasks = Tasks.objects.all()
-    return render(request, "index.html", {"tasks" : tasks})
+    # tasks = Tasks.objects.all()
+    # return render(request, "index.html", {"tasks" : tasks})
+    form = ListForm(request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('/')
+    else: 
+        form = ListForm()
+
+    return render(request, 'index.html', {'form': form})
 
 def addTask(request):
     # newTask = Tasks(descr=request.POST['task'],
@@ -40,4 +48,4 @@ def updateList(request):
         updatedTask.save()
 
 
-    return render(request, "updateDump.html", {"formInput": request.POST})
+    return redirect('/')

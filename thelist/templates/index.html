@@ -6,14 +6,7 @@
 </head>
 <body>
     <h1>Welcome to the To Do list app</h1>
-    <form method = "POST" action = "/addTask">
-        {% csrf_token %}
-        {{form.as_p}}
-        <label>
-            <input name="task" type = "text"  value="" placeholder="Please enter a task">
-        </label>
-        <input type="submit" value="Submit">
-    </form>
+    <a href="/addTask">Add New Task</a><br><br><br>
     <form method="POST" action="/updateList">
         {% csrf_token %}
         <table>
@@ -24,8 +17,8 @@
             </thead>
             <tbody>
                 {% for task in tasks %}
+                    <input type="hidden" id="task-id" value={{task.id}}>
                     <tr>
-                        <td><input type="hidden" id="task-id" value={{task.id}}></td>
                         <td>{{task.descr}}</td>
                         <td>{{task.dateCompleted}}</td>
                         <td>{% if task.completed %}
